@@ -2,8 +2,11 @@
 <html lang="el">
 <head>
   <meta charset="utf-8">
-  <title>Κατακόρυφη ταλάντωση</title>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <title>Κατακόρυφη Ταλάντωση με Ελατήριο</title>
+
+  <!-- p5.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+
   <style>
     body {
       margin: 0;
@@ -40,6 +43,19 @@
       width: 100%;
     }
 
+    button {
+      padding: 8px;
+      font-size: 15px;
+      background: #222;
+      color: #fff;
+      border: 1px solid #444;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #333;
+    }
+
     #readout {
       margin-top: 10px;
       padding-top: 10px;
@@ -48,9 +64,8 @@
     }
   </style>
 </head>
-<body>
 
-  <!-- Το sketch μπαίνει εδώ -->
+<body>
 
   <div id="controls"></div>
 
