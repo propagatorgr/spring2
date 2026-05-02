@@ -2,6 +2,7 @@
 let g = 10;                // m/s^2
 let scale = 100;           // 1 m = 100 px
 let naturalLength = 1.8;   // m
+let energyPanelWidth = 260;
 
 // ================== ΜΕΤΑΒΛΗΤΕΣ ==================
 let floorY, naturalY, eqY, y;
@@ -12,8 +13,7 @@ let m = 1, k = 20, A = 0.2;
 let T, omega;
 let E, K, U, umax;
 
-let mSlider, kSlider, ASlider;
-let playButton;
+let mSlider, kSlider, ASlider, playButton;
 
 // ================== SETUP ==================
 function setup() {
@@ -83,25 +83,40 @@ function draw() {
   background(0);
   updateSystem();
 
-  if (running) {
-    t += dt;
-  }
+  if (running) t += dt;
 
   y = eqY + A * scale * sin(TWO_PI * t / T);
-
   let x = (y - eqY) / scale;
+
   U = 0.5 * k * x * x;
   K = E - U;
 
+  // ---- Περιοχή ΤΑΛΑΝΤΩΣΗΣ (clipped) ----
+  beginSimulationArea();
   drawReferenceLines();
   drawSpring();
   drawMass();
   drawFloor();
+  endSimulationArea();
+
+  // ---- Energy panel & UI ----
   drawEnergyPanel();
   drawReadout();
 }
 
-// ================== ΣΧΕΔΙΑΣΗ ==================
+// ================== CLIPPING ==================
+function beginSimulationArea() {
+  drawingContext.save();
+  drawingContext.beginPath();
+  drawingContext.rect(0, 0, width - energyPanelWidth, height);
+  drawingContext.clip();
+}
+
+function endSimulationArea() {
+  drawingContext.restore();
+}
+
+// ================== ΣΧΕΔΙΑΣΗ ΤΑΛΑΝΤΩΣΗΣ ==================
 function drawReferenceLines() {
   drawingContext.setLineDash([6, 6]);
 
@@ -124,71 +139,73 @@ function drawSpring() {
 
   let coils = 16;
   let len = floorY - y;
+  let cx = (width - energyPanelWidth) / 2;
 
   beginShape();
-  vertex(width / 2, floorY);
+  vertex(cx, floorY);
   for (let i = 1; i < coils; i++) {
     let yy = floorY - (i / coils) * len;
-    let xx = width / 2 + (i % 2 ? -14 : 14);
+    let xx = cx + (i % 2 ? -14 : 14);
     vertex(xx, yy);
   }
-  vertex(width / 2, y);
+  vertex(cx, y);
   endShape();
 }
 
 function drawMass() {
+  let cx = (width - energyPanelWidth) / 2;
   rectMode(CENTER);
   fill(100, 150, 255);
   stroke(255);
-  rect(width / 2, y, 60, 40, 8);
+  rect(cx, y, 60, 40, 8);
 }
 
 function drawFloor() {
   strokeWeight(3);
   stroke(255);
-  line(0, floorY, width, floorY);
+  line(0, floorY, width - energyPanelWidth, floorY);
   strokeWeight(1);
 }
 
 // ================== ΕΝΕΡΓΕΙΑΚΟ PANEL ==================
 function drawEnergyPanel() {
-  let x0 = width - 260;
-  let y0 = 40;
+  let x0 = width - energyPanelWidth + 20;
+  let y0 = 30;
 
   noStroke();
   fill(20);
-  rect(x0, y0, 220, 280, 10);
+  rect(x0 - 20, y0 - 20, energyPanelWidth - 20, 320, 10);
 
   fill(255);
   textAlign(CENTER);
   textSize(14);
-  text('Ενεργειακή Ανάλυση', x0 + 110, y0 + 20);
+  text('Ενεργειακή Ανάλυση', x0 + 90, y0);
 
-  let baseY = y0 + 210;
-  let maxH = 140;
+  let baseY = y0 + 240;
+  let maxH = 160;
   let scaleE = maxH / E;
 
   fill(220, 80, 80);
-  rect(x0 + 50, baseY - U * scaleE, 30, U * scaleE);
+  rect(x0 + 10, baseY - U * scaleE, 30, U * scaleE);
 
   fill(80, 150, 255);
-  rect(x0 + 100, baseY - K * scaleE, 30, K * scaleE);
+  rect(x0 + 60, baseY - K * scaleE, 30, K * scaleE);
 
   noFill();
   stroke(255);
-  rect(x0 + 50, baseY - E * scaleE, 80, E * scaleE);
+  rect(x0 + 10, baseY - E * scaleE, 80, E * scaleE);
 
   noStroke();
   fill(200);
-  text('U', x0 + 65, baseY + 15);
-  text('K', x0 + 115, baseY + 15);
-  text('E', x0 + 90, baseY - E * scaleE - 8);
+  text('U', x0 + 25, baseY + 15);
+  text('K', x0 + 75, baseY + 15);
+  text('E', x0 + 50, baseY - E * scaleE - 10);
 
   textAlign(LEFT);
   textSize(12);
-  text(`U = ${U.toFixed(2)} J`, x0 + 20, y0 + 230);
-  text(`K = ${K.toFixed(2)} J`, x0 + 20, y0 + 250);
-  text(`E = ${E.toFixed(2)} J`, x0 + 20, y0 + 270);
+  text(`U = ${U.toFixed(2)} J`, x0, baseY + 40);
+  text(`K = ${K.toFixed(2)} J`, x0, baseY + 60);
+  text(`E = ${E.toFixed(2)} J`, x0, baseY + 80);
 }
 
 // ================== READOUT ==================
