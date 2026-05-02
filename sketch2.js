@@ -3,7 +3,7 @@ let g = 10;                // m/s^2
 let scale = 100;           // 1 m = 100 px
 let naturalLength = 1.8;   // m
 let energyPanelWidth = 260;
-console.log("LOADED sketch_v2.js");
+console.log("tiropites");
 // ================== ΜΕΤΑΒΛΗΤΕΣ ==================
 let floorY, naturalY, eqY, y;
 let t = 0, dt = 0.02;
@@ -23,6 +23,7 @@ function setup() {
   updateSystem();
 }
 
+// ================== RESPONSIVE ==================
 function windowResized() {
   resizeCanvas(windowWidth * 0.95, 450);
   floorY = height - 40;
@@ -91,7 +92,7 @@ function draw() {
   U = 0.5 * k * x * x;
   K = E - U;
 
-  // ---- Περιοχή ΤΑΛΑΝΤΩΣΗΣ (clipped) ----
+  // ---- ΠΕΡΙΟΧΗ ΤΑΛΑΝΤΩΣΗΣ (CLIP) ----
   beginSimulationArea();
   drawReferenceLines();
   drawSpring();
@@ -99,12 +100,14 @@ function draw() {
   drawFloor();
   endSimulationArea();
 
-  // ---- Energy panel & UI ----
+  // ---- ENERGY PANEL ----
   drawEnergyPanel();
+
+  // ---- READOUT ----
   drawReadout();
 }
 
-// ================== CLIPPING ==================
+// ================== CLIP AREA ==================
 function beginSimulationArea() {
   drawingContext.save();
   drawingContext.beginPath();
@@ -116,7 +119,7 @@ function endSimulationArea() {
   drawingContext.restore();
 }
 
-// ================== ΣΧΕΔΙΑΣΗ ΤΑΛΑΝΤΩΣΗΣ ==================
+// ================== ΤΑΛΑΝΤΩΣΗ ==================
 function drawReferenceLines() {
   drawingContext.setLineDash([6, 6]);
 
@@ -167,42 +170,48 @@ function drawFloor() {
   strokeWeight(1);
 }
 
-// ================== ΕΝΕΡΓΕΙΑΚΟ PANEL ==================
+// ================== ENERGY PANEL ==================
 function drawEnergyPanel() {
+
+  // PANEL ΠΑΝΩ ΔΕΞΙΑ - ΣΤΑΘΕΡΟ
   let x0 = width - energyPanelWidth + 20;
-  let y0 = 30;
+  let y0 = 10;
+  let panelH = 320;
 
   noStroke();
   fill(20);
-  rect(x0 - 20, y0 - 20, energyPanelWidth - 20, 320, 10);
+  rect(x0 - 20, y0 - 10, energyPanelWidth - 20, panelH, 10);
 
   fill(255);
   textAlign(CENTER);
   textSize(14);
-  text('Ενεργειακή Ανάλυση', x0 + 90, y0);
+  text('Ενεργειακή Ανάλυση', x0 + 90, y0 + 15);
 
-  let baseY = y0 + 240;
-  let maxH = 160;
+  let baseY = y0 + 250;
+  let maxH = 150;
   let scaleE = maxH / E;
 
+  // U
   fill(220, 80, 80);
   rect(x0 + 10, baseY - U * scaleE, 30, U * scaleE);
 
+  // K
   fill(80, 150, 255);
   rect(x0 + 60, baseY - K * scaleE, 30, K * scaleE);
 
+  // E πλαίσιο
   noFill();
   stroke(255);
   rect(x0 + 10, baseY - E * scaleE, 80, E * scaleE);
 
   noStroke();
   fill(200);
+  textSize(12);
   text('U', x0 + 25, baseY + 15);
   text('K', x0 + 75, baseY + 15);
   text('E', x0 + 50, baseY - E * scaleE - 10);
 
   textAlign(LEFT);
-  textSize(12);
   text(`U = ${U.toFixed(2)} J`, x0, baseY + 40);
   text(`K = ${K.toFixed(2)} J`, x0, baseY + 60);
   text(`E = ${E.toFixed(2)} J`, x0, baseY + 80);
