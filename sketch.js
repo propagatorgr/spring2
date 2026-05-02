@@ -7,7 +7,8 @@ let naturalLength = 1.8;
 let canvas;
 let floorY, naturalY, eqY, y;
 let t = 0, dt = 0.02, T;
-
+let omega = 0;   // rad/s
+let umax = 0;    // m/s
 let m = 1, k = 20, A = 0.2, E = 0;
 let mSlider, kSlider, ASlider;
 
@@ -60,7 +61,11 @@ function updateSystem() {
 
   T = TWO_PI * sqrt(m / k);
   E = 0.5 * k * A * A;
+  // Γωνιακή συχνότητα
+omega = sqrt(k / m);
 
+// Μέγιστη ταχύτητα
+umax = omega * A;
   naturalY = floorY - naturalLength * scale;
   let deltaL = (m * g) / k;
   eqY = naturalY + deltaL * scale;
@@ -130,10 +135,12 @@ function drawFloor() {
 
 function drawReadout() {
   select('#readout').html(
-    `m = ${m.toFixed(2)} kg<br>` +
-    `k = ${k.toFixed(1)} N/m<br>` +
-    `A = ${A.toFixed(2)} m<br>` +
-    `T = ${T.toFixed(2)} s<br>` +
-    `E = ${E.toFixed(2)} J`
-  );
+  `m = ${m.toFixed(2)} kg<br>
+   k = ${k.toFixed(1)} N/m<br>
+   A = ${A.toFixed(2)} m<br>
+   T = ${T.toFixed(2)} s<br>
+   ω = ${omega.toFixed(2)} rad/s<br>
+   uₘₐₓ = ${umax.toFixed(2)} m/s<br>
+   E = ${E.toFixed(2)} J`
+);
 }
