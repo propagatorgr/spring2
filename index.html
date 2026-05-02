@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="utf-8">
+  <title>Κατακόρυφη ταλάντωση</title>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #controls {
+      width: 100%;
+      max-width: 900px;
+      padding: 15px;
+      background: #111;
+      display: grid;
+      grid-template-columns: 1fr;
+      row-gap: 12px;
+    }
+
+    .control {
+      display: flex;
+      flex-direction: column;
+      font-size: 14px;
+    }
+
+    label {
+      margin-bottom: 4px;
+      color: #ccc;
+    }
+
+    input[type=range] {
+      width: 100%;
+    }
+
+    #readout {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #333;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Το sketch μπαίνει εδώ -->
+
+  <div id="controls"></div>
+
+  <script src="sketch.js"></script>
+</body>
+</html>
