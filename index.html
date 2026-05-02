@@ -19,15 +19,13 @@
     }
 
     /* ===== CANVAS ===== */
-  
-#sketch-holder {
-  width: 100%;
-  height: 450px;        /* ΚΡΑΤΑ ΧΩΡΟ */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
+    #sketch-holder {
+      width: 100%;
+      height: 450px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
     /* ===== CONTROL + ENERGY PANEL ===== */
     #panel {
@@ -76,12 +74,26 @@
       background: #333;
     }
 
+    /* ===== READOUT ===== */
     #readout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 30px;
+      row-gap: 6px;
       margin-top: 10px;
       padding-top: 10px;
       border-top: 1px solid #333;
       font-size: 15px;
+    }
+
+    .read-col {
       line-height: 1.4;
+    }
+
+    .unit {
+      color: #9bbad3;
+      font-size: 0.9em;
+      margin-left: 4px;
     }
 
     /* ===== ENERGY PANEL ===== */
@@ -113,13 +125,8 @@
       width: 100%;
     }
 
-    .U {
-      background: rgb(220,80,80);
-    }
-
-    .K {
-      background: rgb(80,150,255);
-    }
+    .U { background: rgb(220,80,80); }
+    .K { background: rgb(80,150,255); }
 
     .E {
       border: 2px solid #fff;
@@ -145,10 +152,8 @@
 
 <body>
 
-  <!-- CANVAS -->
   <div id="sketch-holder"></div>
 
-  <!-- CONTROLS + ENERGY -->
   <div id="panel">
 
     <div id="controls"></div>
@@ -162,11 +167,7 @@
         <div id="Ebar" class="E"></div>
       </div>
 
-      <div id="energy-values">
-        U = 0.00 J<br>
-        K = 0.00 J<br>
-        E = 0.00 J
-      </div>
+      <div id="energy-values"></div>
     </div>
 
   </div>
