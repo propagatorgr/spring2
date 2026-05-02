@@ -18,14 +18,30 @@
       align-items: center;
     }
 
-    #controls {
+    /* ===== CANVAS ===== */
+    #sketch-holder {
       width: 100%;
-      max-width: 900px;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* ===== CONTROL + ENERGY PANEL ===== */
+    #panel {
+      width: 100%;
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
       padding: 15px;
       background: #111;
-      display: grid;
-      grid-template-columns: 1fr;
-      row-gap: 12px;
+      box-sizing: border-box;
+    }
+
+    /* ===== CONTROLS ===== */
+    #controls {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
     .control {
@@ -44,7 +60,7 @@
     }
 
     button {
-      padding: 8px;
+      padding: 10px;
       font-size: 15px;
       background: #222;
       color: #fff;
@@ -61,14 +77,97 @@
       padding-top: 10px;
       border-top: 1px solid #333;
       font-size: 15px;
+      line-height: 1.4;
+    }
+
+    /* ===== ENERGY PANEL ===== */
+    #energy {
+      background: #161616;
+      padding: 12px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #energy h3 {
+      margin: 0 0 10px 0;
+      font-weight: normal;
+    }
+
+    .bar-container {
+      width: 80px;
+      height: 200px;
+      border: 1px solid #aaa;
+      position: relative;
+      margin-bottom: 10px;
+    }
+
+    .bar {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .U {
+      background: rgb(220,80,80);
+    }
+
+    .K {
+      background: rgb(80,150,255);
+    }
+
+    .E {
+      border: 2px solid #fff;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
+
+    #energy-values {
+      font-size: 13px;
+      line-height: 1.4;
+      align-self: flex-start;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 800px) {
+      #panel {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <div id="controls"></div>
+  <!-- CANVAS -->
+  <div id="sketch-holder"></div>
 
-  <script src="sketch2.js"></script>
+  <!-- CONTROLS + ENERGY -->
+  <div id="panel">
+
+    <div id="controls"></div>
+
+    <div id="energy">
+      <h3>Ενεργειακή Ανάλυση</h3>
+
+      <div class="bar-container">
+        <div id="Ubar" class="bar U"></div>
+        <div id="Kbar" class="bar K"></div>
+        <div id="Ebar" class="E"></div>
+      </div>
+
+      <div id="energy-values">
+        U = 0.00 J<br>
+        K = 0.00 J<br>
+        E = 0.00 J
+      </div>
+    </div>
+
+  </div>
+
+  <script src="sketch.js"></script>
+
 </body>
 </html>
