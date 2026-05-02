@@ -3,7 +3,7 @@ let g = 10;                // m/s^2
 let scale = 100;           // 1 m = 100 px
 let naturalLength = 1.8;   // m
 let energyPanelWidth = 260;
-
+console.log("LOADED sketch_v2.js");
 // ================== ΜΕΤΑΒΛΗΤΕΣ ==================
 let floorY, naturalY, eqY, y;
 let t = 0, dt = 0.02;
