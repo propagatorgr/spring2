@@ -141,7 +141,7 @@ function drawFloor() {
   strokeWeight(1);
 }
 
-// ===== ENERGY PANEL (HTML) =====
+// ===== ENERGY PANEL =====
 function updateEnergyPanel() {
   let maxH = 200;
   document.getElementById('Ubar').style.height = `${(U/E)*maxH}px`;
@@ -149,20 +149,24 @@ function updateEnergyPanel() {
   document.getElementById('Ebar').style.height = `${maxH}px`;
 
   document.getElementById('energy-values').innerHTML =
-    `U = ${U.toFixed(2)} J<br>
-     K = ${K.toFixed(2)} J<br>
-     E = ${E.toFixed(2)} J`;
+    `U = ${U.toFixed(2)} <span class="unit">J</span><br>
+     K = ${K.toFixed(2)} <span class="unit">J</span><br>
+     E = ${E.toFixed(2)} <span class="unit">J</span>`;
 }
 
 // ===== READOUT =====
 function updateReadout() {
-  select('#readout').html(
-    `m = ${m.toFixed(2)} kg<br>
-     k = ${k.toFixed(1)} N/m<br>
-     A = ${A.toFixed(2)} m<br>
-     T = ${T.toFixed(2)} s<br>
-     ω = ${omega.toFixed(2)} rad/s<br>
-     uₘₐₓ = ${umax.toFixed(2)} m/s<br>
-     E = ${E.toFixed(2)} J`
-  );
+  document.getElementById('readout').innerHTML = `
+    <div class="read-col">
+      m = ${m.toFixed(2)} <span class="unit">kg</span><br>
+      k = ${k.toFixed(1)} <span class="unit">N/m</span><br>
+      A = ${A.toFixed(2)} <span class="unit">m</span>
+    </div>
+    <div class="read-col">
+      T = ${T.toFixed(2)} <span class="unit">s</span><br>
+      ω = ${omega.toFixed(2)} <span class="unit">rad/s</span><br>
+      uₘₐₓ = ${umax.toFixed(2)} <span class="unit">m/s</span><br>
+      E = ${E.toFixed(2)} <span class="unit">J</span>
+    </div>
+  `;
 }
